@@ -2541,6 +2541,7 @@ if MCP_AVAILABLE:
                 refresh_token=refresh_token,
                 scope=scope,
                 client_token_endpoint_auth_method=sealed_code.token_endpoint_auth_method if sealed_code else None,
+                sealed_client=sealed_code is not None,
             )
 
     @router.post(

@@ -3841,6 +3841,7 @@ class TestTemporaryMCPSessionEndpoints:
             refresh_token=None,
             scope=None,
             client_token_endpoint_auth_method=None,
+            sealed_client=False,
         )
 
     @pytest.mark.asyncio
@@ -3895,6 +3896,7 @@ class TestTemporaryMCPSessionEndpoints:
             refresh_token="rt-123",
             scope=None,
             client_token_endpoint_auth_method=None,
+            sealed_client=False,
         )
 
     @pytest.mark.asyncio
