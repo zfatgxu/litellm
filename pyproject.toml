@@ -375,6 +375,10 @@ members = ["enterprise", "litellm-proxy-extras"]
 version = "1.107.0"
 version_files = [
     "pyproject.toml:^version",
+    "terraform/litellm/aws/variables.tf:^  default     = \"v",
+    "terraform/litellm/gcp/variables.tf:^  default     = \"v",
+    "terraform/litellm/gcp/examples/default/variables.tf:^  default     = \"v",
+    "terraform/litellm/gcp/examples/default/deploystack.json:\"default\": \"v",
 ]
 
 [tool.pytest.ini_options]

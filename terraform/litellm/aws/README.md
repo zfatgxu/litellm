@@ -499,12 +499,17 @@ top — set org-wide tags there, per-deployment tags via the `tags` input.
 
 ## Image pulls
 
-The defaults pull from `ghcr.io/berriai/litellm-<component>:v1.86.0-dev`,
+The defaults pull `ghcr.io/berriai/litellm-<component>:${image_tag}`,
 which is anonymous-readable. There are four images: `litellm-gateway`,
 `litellm-backend`, `litellm-ui`, and `litellm-migrations` (slim image used
 only by the one-off migration task — runs `prisma migrate deploy` against
-the writer DB and exits). Bump them together when bumping LiteLLM. To pull
-from a private registry:
+the writer DB and exits). A published module version defaults `image_tag`
+to its own release tag, so bumping the module version bumps all four
+images with it. Set `image_tag` to pin a different LiteLLM release, or
+`image_registry` to pull the same four images from a mirror. Set
+`gateway_image` / `backend_image` / `ui_image` / `migrations_image` only
+for a per-component override (custom build, different tag). To pull from a
+private registry:
 
 - **ECR (same account)**: the execution role already has
   `AmazonECSTaskExecutionRolePolicy`, which grants ECR pull for repos in

@@ -144,9 +144,9 @@ variable "image_registry" {
 }
 
 variable "image_tag" {
-  description = "Tag applied to all four litellm-* images when composed from `image_registry`. Bump in lockstep when bumping LiteLLM. Must match a tag actually published to GHCR — the split images use the `v`-prefixed semver convention (e.g. `v1.86.0-dev`)."
+  description = "Tag applied to all four litellm-* images when composed from `image_registry`. Defaults to the release tag of this module version, which matches the `v`-prefixed tag published to GHCR for the same LiteLLM release. Set it to pin the images to a different LiteLLM release."
   type        = string
-  default     = "v1.86.0-dev"
+  default     = "v1.107.0"
 }
 
 variable "gateway_image" {

@@ -54,11 +54,13 @@ Then point the stack at it via `image_registry`:
 
 ```hcl
 image_registry = "us-central1-docker.pkg.dev/my-gcp-project/litellm/berriai"
-image_tag      = "v1.86.0-dev"
 ```
 
-The four `litellm-<component>:${image_tag}` URIs are composed from those
-two vars. Set `gateway_image` / `backend_image` / `ui_image` /
+The four `litellm-<component>:${image_tag}` URIs are composed from
+`image_registry` and `image_tag`. A published module version defaults
+`image_tag` to its own release tag, so bumping the module version bumps
+all four images with it. Set `image_tag` to pin a different LiteLLM
+release. Set `gateway_image` / `backend_image` / `ui_image` /
 `migrations_image` only if you need a per-component override (custom
 build, different tag).
 
