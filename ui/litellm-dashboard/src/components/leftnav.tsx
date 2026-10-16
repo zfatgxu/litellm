@@ -83,6 +83,7 @@ import BetaBadge from "./BetaBadge";
 import SidebarAccountMenu from "./SidebarAccountMenu/SidebarAccountMenu";
 import SidebarUsageCard from "./SidebarUsageCard";
 import { routeSegmentForPathname, uiHref } from "@/utils/uiHref";
+import { t } from "@/i18n";
 
 const ICON = { strokeWidth: 1.75 } as const;
 
@@ -207,15 +208,15 @@ export const visibleMenuGroups = (groups: readonly MenuGroup[], context: MenuVis
 // icons changed to lucide as part of the sidebar redesign.
 const menuGroups: MenuGroup[] = [
   {
-    groupLabel: "AI GATEWAY",
+    groupLabel: t("AI GATEWAY"),
     items: [
-      { key: "home", page: "home", label: "Home", icon: <House {...ICON} /> },
-      { key: "api-keys", page: "api-keys", label: "Virtual Keys", icon: <KeyRound {...ICON} /> },
+      { key: "home", page: "home", label: t("Home"), icon: <House {...ICON} /> },
+      { key: "api-keys", page: "api-keys", label: t("Virtual Keys"), icon: <KeyRound {...ICON} /> },
       {
         key: "llm-playground",
         page: "llm-playground",
         route: "playground",
-        label: "Playground",
+        label: t("Playground"),
         icon: <PlayCircle {...ICON} />,
         roles: rolesWithWriteAccess,
       },
@@ -230,54 +231,54 @@ const menuGroups: MenuGroup[] = [
       {
         key: "agentic",
         page: "agentic",
-        label: "Agentic",
+        label: t("Agentic"),
         icon: <Bot {...ICON} />,
         children: [
           {
             key: "agents",
             page: "agents",
-            label: "Agents",
+            label: t("Agents"),
             icon: <Bot {...ICON} />,
             roles: rolesAllowedToViewWriteScopedPages,
           },
           {
             key: "workflows",
             page: "workflows",
-            label: "Workflow Runs",
+            label: t("Workflow Runs"),
             icon: <Workflow {...ICON} />,
             roles: rolesWithCapability("viewWorkflowRuns"),
           },
           {
             key: "memory",
             page: "memory",
-            label: "Memory",
+            label: t("Memory"),
             icon: <Database {...ICON} />,
             roles: rolesWithCapability("viewMemory"),
           },
         ],
       },
-      { key: "mcp-servers", page: "mcp-servers", label: "MCP Servers", icon: <Server {...ICON} /> },
-      { key: "skills", page: "skills", label: "Skills", icon: <Blocks {...ICON} />, roles: all_admin_roles },
-      { key: "guardrails", page: "guardrails", label: "Guardrails", icon: <Shield {...ICON} /> },
+      { key: "mcp-servers", page: "mcp-servers", label: t("MCP Servers"), icon: <Server {...ICON} /> },
+      { key: "skills", page: "skills", label: t("Skills"), icon: <Blocks {...ICON} />, roles: all_admin_roles },
+      { key: "guardrails", page: "guardrails", label: t("Guardrails"), icon: <Shield {...ICON} /> },
       {
         key: "policies",
         page: "policies",
-        label: "Policies",
+        label: t("Policies"),
         icon: <ScrollText {...ICON} />,
         roles: rolesWithCapability("viewPolicies"),
       },
       {
         key: "tools",
         page: "tools",
-        label: "Tools",
+        label: t("Tools"),
         icon: <Wrench {...ICON} />,
         children: [
-          { key: "search-tools", page: "search-tools", label: "Search Tools", icon: <Search {...ICON} /> },
-          { key: "vector-stores", page: "vector-stores", label: "Vector Stores", icon: <Database {...ICON} /> },
+          { key: "search-tools", page: "search-tools", label: t("Search Tools"), icon: <Search {...ICON} /> },
+          { key: "vector-stores", page: "vector-stores", label: t("Vector Stores"), icon: <Database {...ICON} /> },
           {
             key: "tool-policies",
             page: "tool-policies",
-            label: "Tool Policies",
+            label: t("Tool Policies"),
             icon: <ShieldCheck {...ICON} />,
             roles: rolesWithCapability("viewToolPolicies"),
           },
@@ -286,7 +287,7 @@ const menuGroups: MenuGroup[] = [
     ],
   },
   {
-    groupLabel: "OBSERVABILITY",
+    groupLabel: t("OBSERVABILITY"),
     items: [
       {
         key: "new_usage",
@@ -294,7 +295,7 @@ const menuGroups: MenuGroup[] = [
         route: "usage",
         icon: <BarChart3 {...ICON} />,
         roles: [...all_admin_roles, ...internalUserRoles],
-        label: "Usage",
+        label: t("Usage"),
       },
       {
         key: "model-insights",
@@ -312,9 +313,9 @@ const menuGroups: MenuGroup[] = [
         page: "cost-optimization",
         icon: <PiggyBank {...ICON} />,
         roles: [...all_admin_roles, ...internalUserRoles],
-        label: "Cost Optimization",
+        label: t("Cost Optimization"),
       },
-      { key: "logs", page: "logs", label: "Logs", icon: <Activity {...ICON} /> },
+      { key: "logs", page: "logs", label: t("Logs"), icon: <Activity {...ICON} /> },
       {
         key: "lens",
         page: "lens",
@@ -328,16 +329,16 @@ const menuGroups: MenuGroup[] = [
       {
         key: "guardrails-monitor",
         page: "guardrails-monitor",
-        label: "Guardrails Monitor",
+        label: t("Guardrails Monitor"),
         icon: <HeartPulse {...ICON} />,
         roles: rolesWithCapability("viewGuardrailUsage"),
       },
     ],
   },
   {
-    groupLabel: "ACCESS CONTROL",
+    groupLabel: t("ACCESS CONTROL"),
     items: [
-      { key: "teams", page: "teams", label: "Teams", icon: <Users {...ICON} /> },
+      { key: "teams", page: "teams", label: t("Teams"), icon: <Users {...ICON} /> },
       {
         key: "projects",
         page: "projects",
@@ -349,67 +350,67 @@ const menuGroups: MenuGroup[] = [
         icon: <Folder {...ICON} />,
         roles: [...projectReaderRoles],
       },
-      { key: "users", page: "users", label: "Internal Users", icon: <User {...ICON} />, roles: all_admin_roles },
+      { key: "users", page: "users", label: t("Internal Users"), icon: <User {...ICON} />, roles: all_admin_roles },
       {
         key: "organizations",
         page: "organizations",
-        label: "Organizations",
+        label: t("Organizations"),
         icon: <Building2 {...ICON} />,
         roles: all_admin_roles,
       },
       {
         key: "access-groups",
         page: "access-groups",
-        label: "Access Groups",
+        label: t("Access Groups"),
         icon: <Boxes {...ICON} />,
         roles: all_admin_roles,
       },
-      { key: "budgets", page: "budgets", label: "Budgets", icon: <Wallet {...ICON} />, roles: all_admin_roles },
+      { key: "budgets", page: "budgets", label: t("Budgets"), icon: <Wallet {...ICON} />, roles: all_admin_roles },
     ],
   },
   {
-    groupLabel: "DEVELOPER TOOLS",
+    groupLabel: t("DEVELOPER TOOLS"),
     items: [
-      { key: "api_ref", page: "api_ref", route: "api-reference", label: "API Reference", icon: <Code2 {...ICON} /> },
-      { key: "model-hub-table", page: "model-hub-table", label: "AI Hub", icon: <LayoutGrid {...ICON} /> },
+      { key: "api_ref", page: "api_ref", route: "api-reference", label: t("API Reference"), icon: <Code2 {...ICON} /> },
+      { key: "model-hub-table", page: "model-hub-table", label: t("AI Hub"), icon: <LayoutGrid {...ICON} /> },
       {
         key: "learning-resources",
         page: "learning-resources",
-        label: "Learning Resources",
+        label: t("Learning Resources"),
         icon: <BookOpen {...ICON} />,
         external_url: "https://models.litellm.ai/cookbook",
       },
       {
         key: "caching",
         page: "caching",
-        label: "Response Cache",
+        label: t("Response Cache"),
         icon: <Database {...ICON} />,
         roles: all_admin_roles,
       },
       {
         key: "experimental",
         page: "experimental",
-        label: "Experimental",
+        label: t("Experimental"),
         icon: <FlaskConical {...ICON} />,
         children: [
           {
             key: "prompts",
             page: "prompts",
-            label: "Prompts",
+            label: t("Prompts"),
             icon: <FileText {...ICON} />,
             roles: rolesWithCapability("viewPrompts"),
           },
           {
             key: "transform-request",
             page: "transform-request",
-            label: "API Playground",
+            label: t("API Playground"),
             icon: <Terminal {...ICON} />,
             roles: [...all_admin_roles, ...internalUserRoles],
           },
           {
             key: "tag-management",
             page: "tag-management",
-            label: "Tag Management",
+            label: t("Tag Management"),
             icon: <Tags {...ICON} />,
             roles: all_admin_roles,
           },
@@ -417,7 +418,7 @@ const menuGroups: MenuGroup[] = [
             key: "4",
             page: "usage",
             route: "old-usage",
-            label: "Old Usage",
+            label: t("Old Usage"),
             icon: <BarChart3 {...ICON} />,
             roles: rolesWithCapability("viewGlobalSpend"),
           },
@@ -426,49 +427,49 @@ const menuGroups: MenuGroup[] = [
     ],
   },
   {
-    groupLabel: "SETTINGS",
+    groupLabel: t("SETTINGS"),
     roles: all_admin_roles,
     items: [
       {
         key: "settings",
         page: "settings",
-        label: "Settings",
+        label: t("Settings"),
         icon: <SettingsIcon {...ICON} />,
         roles: all_admin_roles,
         children: [
           {
             key: "router-settings",
             page: "router-settings",
-            label: "Router Settings",
+            label: t("Router Settings"),
             icon: <Route {...ICON} />,
             roles: all_admin_roles,
           },
           {
             key: "logging-and-alerts",
             page: "logging-and-alerts",
-            label: "Logging & Alerts",
+            label: t("Logging & Alerts"),
             icon: <Bell {...ICON} />,
             roles: all_admin_roles,
           },
           {
             key: "admin-panel",
             page: "admin-panel",
-            label: "Admin Settings",
+            label: t("Admin Settings"),
             icon: <SettingsIcon {...ICON} />,
             roles: all_admin_roles,
           },
           {
             key: "cost-tracking",
             page: "cost-tracking",
-            label: "Cost Tracking",
+            label: t("Cost Tracking"),
             icon: <BarChart3 {...ICON} />,
             roles: all_admin_roles,
           },
-          { key: "ui-theme", page: "ui-theme", label: "UI Theme", icon: <Palette {...ICON} />, roles: all_admin_roles },
+          { key: "ui-theme", page: "ui-theme", label: t("UI Theme"), icon: <Palette {...ICON} />, roles: all_admin_roles },
           {
             key: "telemetry",
             page: "telemetry",
-            label: "Telemetry",
+            label: t("Telemetry"),
             icon: <Activity {...ICON} />,
             roles: proxyAdminTierRoles,
           },

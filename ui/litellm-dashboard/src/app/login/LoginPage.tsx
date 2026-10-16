@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 import { z } from "zod";
 import { useWorker } from "@/hooks/useWorker";
+import { t } from "@/i18n";
 
 const loginSchema = z.object({
   username: z.string().min(1, "Please enter your username"),
@@ -288,12 +289,12 @@ function LoginPageContent() {
                     </Field>
                   )}
 
-                  <FormField control={form.control} name="username" label="Username">
+                  <FormField control={form.control} name="username" label={t("Username")}>
                     {({ ref, ...field }) => (
                       <Input
                         {...field}
                         ref={ref}
-                        placeholder="Enter your username"
+                        placeholder={t("Enter your username")}
                         autoComplete="username"
                         disabled={isLoginLoading}
                         className="h-10 rounded-md"
@@ -301,12 +302,12 @@ function LoginPageContent() {
                     )}
                   </FormField>
 
-                  <FormField control={form.control} name="password" label="Password">
+                  <FormField control={form.control} name="password" label={t("Password")}>
                     {({ ref, ...field }) => (
                       <PasswordInput
                         {...field}
                         ref={ref}
-                        placeholder="Enter your password"
+                        placeholder={t("Enter your password")}
                         autoComplete="current-password"
                         disabled={isLoginLoading}
                         groupClassName="h-10"
@@ -316,7 +317,7 @@ function LoginPageContent() {
 
                   <Button type="submit" size="lg" disabled={isLoginLoading} className="w-full">
                     {isLoginLoading && <UiLoadingSpinner className="size-4" role="img" aria-label="loading" />}
-                    {isLoginLoading ? "Logging in..." : "Login"}
+                    {isLoginLoading ? t("Logging in...") : t("Login")}
                   </Button>
 
                   {!uiConfig?.sso_configured ? (
