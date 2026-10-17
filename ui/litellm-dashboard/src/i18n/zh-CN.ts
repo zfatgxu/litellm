@@ -158,6 +158,25 @@ export const zhCN: Record<string, string> = {
   "Node Health": "节点状态",
   "Routing Strategy": "路由策略",
   "Fallback Enabled": "已启用降级",
+
+  // ============ 登录页与通用操作 ============
+  "Access your LiteLLM Admin UI.": "登录以访问 LiteLLM 管理界面",
+  "Default Credentials": "默认凭据",
+  "By default, Username is": "默认情况下，用户名为",
+  "and Password is your set LiteLLM Proxy": "，密码为你配置的 LiteLLM 代理",
+  "Need to set UI credentials or SSO?": "需要修改界面凭据或配置单点登录？",
+  "Check the documentation": "查看官方文档",
+  "Admin UI Disabled": "管理界面已停用",
+  "The Admin UI has been disabled by the administrator. To re-enable it, please update the following": "管理界面已被管理员停用。如需重新启用，请调整以下",
+  "environment variable:": "环境变量：",
+  Worker: "工作节点",
+  "Choose a worker to connect to": "选择要连接的工作节点",
+  "Sign in with SSO": "使用统一身份认证登录",
+  "Forgot your password?": "忘记密码？",
+  "Please enter your username": "请输入用户名",
+  "Please enter your password": "请输入密码",
+  "Invalid username or password": "用户名或密码不正确",
+  "Something went wrong": "操作失败",
 };
 
 export default zhCN;
