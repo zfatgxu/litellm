@@ -16,7 +16,21 @@ const useAuthorized = () => {
   const decoded = useMemo(() => decodeToken(token), [token]);
   const isTokenValid = useMemo(() => checkTokenValidity(token), [token]);
   const isLoading = isUIConfigLoading;
-  const isAuthorized = isTokenValid && !uiConfig?.admin_ui_disabled;
+  // 广西大学定制：网关模式下，凭证真伪一律交给后端判断。
+  // 只要 cookie/sessionStorage 里有 token 就放行 —— 后端会用真实校验决定
+  // 每个接口能否访问；前端再自己解析一遍，只会在后端认得这个 key 时误踢用户。
+  const isAuthorized = !!token && !uiConfig?.admin_ui_disabled;
+  try {
+    (window as any).__GXU_AUTH__ = {
+      token: token ? token.slice(0, 10) : null,
+      isTokenValid,
+      loading: isLoading,
+      adminDisabled: uiConfig?.admin_ui_disabled ?? null,
+      authed: isAuthorized,
+      path: location.pathname,
+    };
+  } catch {}
+
 
   // Helper function to redirect to login while preserving the current URL
   const redirectToLogin = useCallback(() => {

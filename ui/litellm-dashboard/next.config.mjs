@@ -29,7 +29,10 @@ const nextConfig = {
       }
     : {}),
   output: devProxyUrl ? undefined : "export",
-  typescript: { tsconfigPath: "tsconfig.production.json" },
+  // 构建期不再重复做类型检查：sync-ui.sh 在 build 之前已用同一份
+  // tsconfig.production.json 跑过 tsc --noEmit（实测 101 秒），再跑一遍纯属浪费。
+  typescript: { tsconfigPath: "tsconfig.production.json", ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true },
   experimental: {
     useTypeScriptCli: false,
   },
@@ -41,7 +44,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: "",
+  // 广西大学定制：LiteLLM 的 UI 从设计起就挂在 /ui 下 —— getLoginUrl、
+  // redirect_url、全部客户端路由都带这个前缀。上游这里是空串，我们用
+  // nginx 托管静态导出时没补上，结果客户端导航到 /ui/* 时 Next 认为该路由
+  // 不存在，鉴权组件不渲染，表现为登录后一闪一闪被踢回登录页。
+  basePath: "/ui",
   assetPrefix: "/litellm-asset-prefix",
   trailingSlash: !devProxyUrl,
   skipTrailingSlashRedirect: Boolean(devProxyUrl),

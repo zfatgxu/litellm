@@ -62,17 +62,20 @@ let runtimeDict: Record<string, string> | null = null;
 function loadRuntimeDict(): void {
   if (typeof window === "undefined") return;
   try {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", RUNTIME_DICT_URL + "?v=" + Date.now(), false);
-    xhr.send();
-    if (xhr.status === 200 && xhr.responseText) {
-      const parsed = JSON.parse(xhr.responseText);
-      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-        runtimeDict = parsed as Record<string, string>;
-      }
-    }
+    // 异步加载，避免阻塞主线程与服务端渲染。
+    // 拿不到就继续用构建内置的词典，首屏不受影响。
+    void fetch(RUNTIME_DICT_URL + "?v=" + Date.now(), { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((parsed) => {
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+          runtimeDict = parsed as Record<string, string>;
+        }
+      })
+      .catch(() => {
+        /* 忽略：拿不到就用内置词典 */
+      });
   } catch {
-    /* 忽略：拿不到就用内置词典 */
+    /* 忽略 */
   }
 }
 

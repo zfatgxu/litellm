@@ -18,7 +18,11 @@ function getUiCookiePath(): string {
   if (match && match.index !== undefined) {
     return window.location.pathname.substring(0, match.index + 3);
   }
-  return "/ui";
+  // 找不到 /ui 段说明部署在站点根路径，cookie 必须挂在根上。
+  // 挂到 /ui 会导致：在 /login/ 写入的 cookie 自己就读不到，
+  // 跳转 /ui 的过程中 useAuthorized 取到 null，判定未授权并清 cookie，
+  // 登录页发现有 token 又跳回 /ui —— 死循环，表现为登录后一闪一闪。
+  return "/";
 }
 
 /**
@@ -69,6 +73,12 @@ export function clearTokenCookies() {
     // sessionStorage may be unavailable
   }
 
+  try {
+    localStorage.removeItem("token");
+  } catch {
+    /* ignore */
+  }
+
   clearAllMcpTokens();
 }
 
@@ -102,6 +112,14 @@ export function storeLoginToken(token: string) {
     sessionStorage.setItem("token", token);
   } catch {
     // sessionStorage may be unavailable (e.g. private browsing quota exceeded)
+  }
+
+  // 3. localStorage 兜底。cookie 受 path / SameSite / 时序影响，客户端导航
+  //    过程中可能读不到；localStorage 没有这些约束，作为最终兜底。
+  try {
+    localStorage.setItem("token", token);
+  } catch {
+    /* ignore */
   }
 }
 
@@ -138,9 +156,16 @@ export function getCookie(name: string) {
   // added HttpOnly to the server-set cookie, making it invisible to JS.
   if (name === "token" && typeof window !== "undefined") {
     try {
-      return sessionStorage.getItem(name);
+      const ss = sessionStorage.getItem(name);
+      if (ss) return ss;
     } catch {
-      return null;
+      /* ignore */
+    }
+    try {
+      const ls = localStorage.getItem(name);
+      if (ls) return ls;
+    } catch {
+      /* ignore */
     }
   }
   return null;

@@ -129,7 +129,7 @@ function LoginPageContent() {
       if (returnUrl) {
         router.replace(getUiPageUrl(returnUrl, true));
       } else {
-        router.replace("/ui");
+        router.replace("/");
       }
       return;
     }
@@ -161,7 +161,7 @@ function LoginPageContent() {
     if (!selectedWorker) {
       clearTokenCookies();
       storeLoginToken(password);
-      router.push("/ui/");
+      router.push("/");
       return;
     }
 
