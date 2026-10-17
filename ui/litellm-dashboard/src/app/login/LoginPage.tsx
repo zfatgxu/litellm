@@ -21,7 +21,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { UiLoadingSpinner } from "@/components/ui/ui-loading-spinner";
 import { useZodForm } from "@/lib/forms/useZodForm";
-import { clearTokenCookies, getCookieFromDocument } from "@/utils/cookieUtils";
+import { clearTokenCookies, getCookieFromDocument, storeLoginToken } from "@/utils/cookieUtils";
 import { isJwtExpired } from "@/utils/jwtUtils";
 import { consumeReturnUrl, getLoginUrl, getReturnUrl, isValidReturnUrl } from "@/utils/returnUrlUtils";
 import { CircleAlert, Info, TriangleAlert, X } from "lucide-react";
@@ -151,6 +151,20 @@ function LoginPageContent() {
   const handleSubmit = ({ username, password }: LoginFormValues) => {
     // If a worker is selected, point proxyBaseUrl at it before login
     const selectedWorker = workers.find((w) => w.worker_id === selectedWorkerId);
+
+    // 广西大学定制：开源版 LiteLLM 没有可用的 JWT 会话机制 ——
+    // /v2/login 只会签发 JWT，而解析 JWT 需要 enable_jwt_auth，
+    // 该开关是企业版功能，开源版一律返回 403 "enterprise only feature"。
+    // 结果是登录能过、进了后台所有接口全 403。
+    // 因此这里不调 /v2/login，直接把用户输入的 key 当作 API key 用，
+    // 这正是 LiteLLM 开源版 UI 一直以来的认证方式。
+    if (!selectedWorker) {
+      clearTokenCookies();
+      storeLoginToken(password);
+      router.push("/ui/");
+      return;
+    }
+
     if (selectedWorker) {
       switchToWorkerUrl(selectedWorker.url);
     }
